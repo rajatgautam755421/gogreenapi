@@ -61,7 +61,7 @@ app.get("/", (req, res) => {
 
 app.post("/api/v1/payment/verify", async (req, res) => {
   let data = {
-    token: "zTA2KfaN3FR5eeMEn2qD68",
+    token: "QUao9cqFzxPgvWJNi9aKac",
     amount: 900,
   };
 
