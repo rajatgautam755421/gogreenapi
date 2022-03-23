@@ -1,15 +1,40 @@
-const ContactModel = require("../../models/contactModel/ContactModel");
+const connection = require("../../config/contactmysqldb");
 const router = require("express").Router();
+const { v4 } = require("uuid");
 
-router.post("/contact", async (req, res) => {
+router.post("/contact", (req, res) => {
+  const name = req.body.name;
+  const message = req.body.message;
+  const email = req.body.email;
+  const id = v4();
   try {
-    const result = await ContactModel.create(req.body);
-    res.status(201).json({
-      status: "Success",
-      json: result,
+    sql = `INSERT INTO contactus (id,name,email, message) VALUES ('${id}','${name}', '${email}','${message}')`;
+    connection.query(sql, (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result);
+      }
     });
   } catch (error) {
-    res.status(500).json(error.message);
+    console.log(error);
+  }
+});
+
+//Get All Contacts
+
+router.get("/contact", (req, res) => {
+  try {
+    sql = "SELECT * FROM contactus";
+    connection.query(sql, (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result);
+      }
+    });
+  } catch (error) {
+    res.json(error);
   }
 });
 
