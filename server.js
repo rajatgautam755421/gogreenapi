@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const app = express();
-const port = process.env.PORT || 3000;
+const Port = process.env.PORT || 3000;
 require("./config/database");
 
 //Global Middlewares
@@ -29,6 +29,6 @@ app.get("*", (req, res) => {
   });
 });
 
-app.listen(port, () => {
+app.listen(Port, () => {
   console.log("Listening At 3000");
 });

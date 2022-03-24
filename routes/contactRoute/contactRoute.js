@@ -1,21 +1,25 @@
 const connection = require("../../config/contactmysqldb");
 const router = require("express").Router();
 const { v4 } = require("uuid");
+const AuthModel = require("../../models/authModel/AuthModel");
 
 router.post("/contact", (req, res) => {
-  const name = req.body.name;
-  const message = req.body.message;
-  const email = req.body.email;
+  console.log(req.body);
+  const { name, email, message } = req.body;
   const id = v4();
   try {
-    sql = `INSERT INTO contactus (id,name,email, message) VALUES ('${id}','${name}', '${email}','${message}')`;
-    connection.query(sql, (err, result) => {
-      if (err) {
-        throw err;
-      } else {
-        res.send(result);
-      }
-    });
+    if (name !== undefined || message !== undefined || email !== undefined) {
+      sql = `INSERT INTO contactus (id,name,email, message) VALUES ('${id}','${name}', '${email}','${message}')`;
+      connection.query(sql, (err, result) => {
+        if (err) {
+          throw err;
+        } else {
+          res.send(result);
+        }
+      });
+    } else {
+      res.send("No data");
+    }
   } catch (error) {
     console.log(error);
   }
@@ -35,6 +39,18 @@ router.get("/contact", (req, res) => {
     });
   } catch (error) {
     res.json(error);
+  }
+});
+
+router.get("/allusers", async (req, res) => {
+  try {
+    const response = await AuthModel.find();
+    res.status(200).json({
+      status: "success",
+      data: response,
+    });
+  } catch (error) {
+    res.status(500).json(error.message);
   }
 });
 

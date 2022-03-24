@@ -21,13 +21,16 @@ const userSchema = Schema(
       type: String,
       unique: true,
     },
-    image: {
+    pic: {
       type: String,
       required: [true, "Image of user is required"],
+      default:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOYb34Y3AeQDMsWveCo4G8kJUBJB7fqt29mw&usqp=CAU",
     },
     role: {
       type: String,
       enum: ["Buyer", "Seller", "Admin"],
+      default: "Buyer",
     },
   },
   { timestamps: true }
