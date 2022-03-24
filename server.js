@@ -14,12 +14,12 @@ dotenv.config({ path: "./config/.env" });
 
 //Importing Routes
 const authRoute = require("./routes/authRoute/route");
-const contactRoute = require("./routes/contactRoute/contactRoute");
+// const contactRoute = require("./routes/contactRoute/contactRoute");
 const khaltiRoute = require("./routes/khaltiroute/khalti");
 
 //Implement Routes
 app.use("/api/v1", authRoute);
-app.use("/api/v1", contactRoute);
+// app.use("/api/v1", contactRoute);
 app.use("/api/v1", khaltiRoute);
 
 app.get("*", (req, res) => {
