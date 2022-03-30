@@ -23,7 +23,7 @@ router.post("/payment/verify", (req, res) => {
         console.log(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
       });
   } catch (error) {
     console.log(error.message);
