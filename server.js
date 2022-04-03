@@ -19,6 +19,9 @@ const khaltiRoute = require("./routes/khaltiroute/khalti");
 const blogRoute = require("./routes/blogroute/blogRoute");
 const createSalesRoute = require("./routes/createSalesRoute/createSales");
 const paymentRoute = require("./routes/paymentRoute/paymentRoute");
+const commentBlogRoute = require("./routes/commentBlogRoute/commentBlogRoute");
+const likeBlogRoute = require("./routes/likeBlogRoute/likeBlogRoute");
+const rateAProductRoute = require("./routes/rateAProduct/rateAProduct");
 
 //Implement Routes
 app.use("/api/v1", authRoute);
@@ -27,7 +30,11 @@ app.use("/api/v1", khaltiRoute);
 app.use("/api/v1", blogRoute);
 app.use("/api/v1", createSalesRoute);
 app.use("/api/v1", paymentRoute);
+app.use("/api/v1", commentBlogRoute);
+app.use("/api/v1", likeBlogRoute);
+app.use("/api/v1", rateAProductRoute);
 
+//Page Not Found(404 Error)
 app.get("*", (req, res) => {
   res.status(200).json({
     status: "Failure",
@@ -36,5 +43,5 @@ app.get("*", (req, res) => {
 });
 
 app.listen(Port, () => {
-  console.log("Listening At 3000");
+  console.log(`Server listening at ${Port}`);
 });

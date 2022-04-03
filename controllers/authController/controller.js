@@ -72,10 +72,14 @@ const userLogin = async (req, res) => {
   }
 };
 
-const dashboard = (req, res) => {
-  res.json({
-    msg: "Dashboard",
-  });
+const findUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await AuthModel.findById({ _id: id });
+    res.json(response);
+  } catch (error) {
+    res.json(error);
+  }
 };
 
-module.exports = { createAUser, userLogin, dashboard };
+module.exports = { createAUser, userLogin, findUser };

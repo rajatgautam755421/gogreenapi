@@ -1,39 +1,36 @@
 const router = require("express").Router();
-const { v4 } = require("uuid");
-const connection = require("../../config/contactmysqldb");
+const BlogModel = require("../../models/blogModel/BlogModel");
 
 router.post("/blog", async (req, res) => {
   const { title, description } = req.body;
-  const id = v4();
 
   if (title !== "" || description !== "") {
     try {
-      sql = `INSERT INTO blogs (post_id,title,description) VALUES ('${id}','${title}', '${description}')`;
-      connection.query(sql, (err, result) => {
-        if (err) {
-          throw err;
-        } else {
-          res.send(result);
-        }
-      });
-    } catch (error) {}
+      const response = await BlogModel.create({ title, description });
+      res.status(201).json(response);
+    } catch (error) {
+      res.status(500).json(error.message);
+    }
   } else {
     console.log("please Enter Some Thing");
   }
 });
 
-router.get("/blog", (req, res) => {
+router.get("/blog", async (req, res) => {
   try {
-    sql = "SELECT * FROM blogs";
-    connection.query(sql, (err, result) => {
-      if (err) {
-        throw err;
-      } else {
-        res.send(result);
-      }
-    });
+    const response = await BlogModel.find({}).sort({ dateOfUpload: -1 });
+    res.status(200).json(response);
   } catch (error) {
     res.json(error);
+  }
+});
+
+router.get("/blog/:blogId", async (req, res) => {
+  try {
+    const response = await BlogModel.findOne({ _id: req.params.blogId });
+    res.status(201).json(response);
+  } catch (error) {
+    res.status(500).json(error.message);
   }
 });
 
