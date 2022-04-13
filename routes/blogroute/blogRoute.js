@@ -34,4 +34,14 @@ router.get("/blog/:blogId", async (req, res) => {
   }
 });
 
+router.delete("/blog/:blogId", async (req, res) => {
+  const { blogId } = req.params;
+  try {
+    const response = await BlogModel.findOneAndDelete({ _id: blogId });
+    res.status(201).json(response);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
+
 module.exports = router;

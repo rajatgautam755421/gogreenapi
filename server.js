@@ -22,6 +22,10 @@ const paymentRoute = require("./routes/paymentRoute/paymentRoute");
 const commentBlogRoute = require("./routes/commentBlogRoute/commentBlogRoute");
 const likeBlogRoute = require("./routes/likeBlogRoute/likeBlogRoute");
 const rateAProductRoute = require("./routes/rateAProduct/rateAProduct");
+const mailRoute = require("./routes/mailRoute/mailRoute");
+const reviewUsers = require("./routes/revirwUser/revirwUserRoute");
+const aericanutRoute = require("./routes/aericanutRoute/aericanutRoute");
+const aericaCheckoutRoute = require("./routes/aerikaCheckout/aerikaCheckout");
 
 //Implement Routes
 app.use("/api/v1", authRoute);
@@ -33,6 +37,10 @@ app.use("/api/v1", paymentRoute);
 app.use("/api/v1", commentBlogRoute);
 app.use("/api/v1", likeBlogRoute);
 app.use("/api/v1", rateAProductRoute);
+app.use("/api/v1", mailRoute);
+app.use("/api/v1", reviewUsers);
+app.use("/api/v1", aericanutRoute);
+app.use("/api/v1", aericaCheckoutRoute);
 
 //Page Not Found(404 Error)
 app.get("*", (req, res) => {

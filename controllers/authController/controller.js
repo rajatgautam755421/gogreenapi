@@ -1,11 +1,11 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const AuthModel = require("../../models/authModel/AuthModel");
+let nodemailer = require("nodemailer");
 
 //Create A User
 const createAUser = async (req, res) => {
   const { email } = req.body;
-
   const response = await AuthModel.findOne({ email: email });
   console.log(response);
   if (!response) {
@@ -82,4 +82,84 @@ const findUser = async (req, res) => {
   }
 };
 
-module.exports = { createAUser, userLogin, findUser };
+const findUserAndUpdateEmail = async (req, res) => {
+  const { id } = req.params;
+  const { email } = req.body;
+  try {
+    const response = await AuthModel.findByIdAndUpdate(
+      { _id: id },
+      { email: email },
+      { new: true, runValidators: true }
+    );
+    res.json(response);
+  } catch (error) {
+    if (error.code === 11000) {
+      res.send("This Email Already Exists");
+    } else {
+      res.json(error.message);
+    }
+  }
+};
+const findUserAndUpdateName = async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  try {
+    const response = await AuthModel.findByIdAndUpdate(
+      { _id: id },
+      { name: name },
+      { new: true, runValidators: true }
+    );
+    res.json(response);
+  } catch (error) {
+    res.json(error.message);
+    console.log(error.message);
+  }
+};
+
+const findUserAndUpdatePhoto = async (req, res) => {
+  const { id } = req.params;
+  const { pic } = req.body;
+  try {
+    const response = await AuthModel.findByIdAndUpdate(
+      { _id: id },
+      { pic: pic },
+      { new: true, runValidators: true }
+    );
+    res.json(response);
+  } catch (error) {
+    res.json(error.message);
+    console.log(error.message);
+  }
+};
+
+const findUserByEmail = async (req, res) => {
+  const { email } = req.params;
+  try {
+    const response = await AuthModel.findOne({ email: email });
+    res.json(response);
+  } catch (error) {
+    res.json(error.message);
+  }
+};
+
+const deleteAUser = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const response = await AuthModel.findByIdAndDelete({ _id: id });
+    res.json(response);
+  } catch (error) {
+    res.json(error.message);
+  }
+};
+
+module.exports = {
+  createAUser,
+  userLogin,
+  findUser,
+  findUserAndUpdateEmail,
+  findUserAndUpdateName,
+  findUserByEmail,
+  deleteAUser,
+  findUserAndUpdatePhoto,
+};
